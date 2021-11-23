@@ -38,12 +38,14 @@ void loop() {
           break;
           case 0xFF22DD:
           Serial.println("|<<");
+          myservo.write(60);
           break;
           case 0xFF02FD:
           Serial.println(">||");
           break ;  
           case 0xFFC23D:
           Serial.println(">>|");
+          myservo.write(120);
           break ;               
                
         }
