@@ -32,6 +32,7 @@ void loop() {
           break;
           case 0xFF629D:
           Serial.println("VOL+");
+          stepper.step(1000);
           break;
           case 0xFFE21D:
           Serial.println("FUNC / STOP");
