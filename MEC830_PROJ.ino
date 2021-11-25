@@ -29,6 +29,9 @@ void loop() {
         switch(results.value){
           case 0xFFA25D:
           Serial.println("ON / OFF");
+          stepper.step(14000);
+          myservo.write(120);
+          stepper.step(9000);
           myservo.write(90);
           break;
           case 0xFF629D:
@@ -37,6 +40,7 @@ void loop() {
           break;
           case 0xFFE21D:
           Serial.println("FUNC / STOP");
+          myservo.write(90);
           break;
           case 0xFF22DD:
           Serial.println("|<<");
