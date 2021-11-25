@@ -29,10 +29,15 @@ void loop() {
         switch(results.value){
           case 0xFFA25D:
           Serial.println("ON / OFF");
-          stepper.step(14000);
+          stepper.step(-14500);
           myservo.write(120);
-          stepper.step(9000);
+          stepper.step(-9000);
           myservo.write(90);
+          stepper.step(-8000);
+          myservo.write(60);
+          stepper.step(-10000);
+          myservo.write(90);
+          stepper.step(-10000);
           break;
           case 0xFF629D:
           Serial.println("VOL+");
