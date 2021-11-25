@@ -14,7 +14,7 @@ unsigned long key_value = 0;
 
 void setup() {
    Serial.begin(9600);
-   stepper.setSpeed(9);
+   stepper.setSpeed(10);
    myservo.attach(5);
    irrecv.enableIRIn();
 }
@@ -29,10 +29,11 @@ void loop() {
         switch(results.value){
           case 0xFFA25D:
           Serial.println("ON / OFF");
+          myservo.write(90);
           break;
           case 0xFF629D:
           Serial.println("VOL+");
-          stepper.step(1000);
+          stepper.step(-1000);
           break;
           case 0xFFE21D:
           Serial.println("FUNC / STOP");
@@ -43,6 +44,7 @@ void loop() {
           break;
           case 0xFF02FD:
           Serial.println(">||");
+          stepper.step(1000);
           break ;  
           case 0xFFC23D:
           Serial.println(">>|");
