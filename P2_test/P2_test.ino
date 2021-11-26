@@ -10,7 +10,7 @@ int joyY = A1;
 
 void setup() {
   servo.attach(6);
-  stepper.setSpeed(4);
+  stepper.setSpeed(10);
 }
 
 void loop() {
