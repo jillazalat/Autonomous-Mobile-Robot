@@ -17,7 +17,7 @@ unsigned long key_value = 0;
 
 void setup() {
   Serial.begin(9600);
-  stepper.setSpeed(10);      //Set Stepper speed
+  stepper.setSpeed(15);      //Set Stepper speed
   myservo.attach(6);         //Set Servo pin
   irrecv.enableIRIn();
   pinMode(trig, OUTPUT);
