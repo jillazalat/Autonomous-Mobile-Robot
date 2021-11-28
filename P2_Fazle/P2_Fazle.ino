@@ -66,8 +66,11 @@ void loop() {
         break ;
       case 0xFF7A85:                //Task 3
         Serial.println("3");
+        int endpoint;
+        endpoint = 12000;
+        for (int i = 0;i <= endpoint; i+100){
         if (distance > 10) {
-          stepper.step(12000);
+          stepper.step(100);
         } else {
           myservo.write(144);
           stepper.step(1000);
@@ -80,6 +83,8 @@ void loop() {
           myservo.write(144);
           stepper.step(1000);
           myservo.write(102);
+          i = i + 6000;
+        }
         }
         break;
         key_value = results.value;
