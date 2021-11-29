@@ -19,9 +19,21 @@ void setup() {
   Serial.begin(9600);
   stepper.setSpeed(15);      //Set Stepper speed
   myservo.attach(6);         //Set Servo pin
+  myservo.write(102);
   irrecv.enableIRIn();
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
+}
+
+float dist_calc(int pos) {  // trigger 40kHz pulse for ranging
+  digitalWrite(trig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+  // convert from duration for pulse to reach detector (microseconds) to range (in cm)
+  duration = pulseIn(echo, HIGH); // duration for pulse to reach detector (in microseconds)
+  distance = 100.0 * (343.0 * (duration / 2.0)) / 1000000.0; // 100.0*(speed of sound*duration/2)/microsec conversion
 }
 
 void loop() {
@@ -68,38 +80,27 @@ void loop() {
         Serial.println("3");
         int endpoint;
         endpoint = 12000;
-        for (int i = 0;i <= endpoint; i+100){
-        if (distance > 10) {
-          stepper.step(100);
-        } else {
-          myservo.write(144);
-          stepper.step(1000);
-          myservo.write(60);
-          stepper.step(1000);
-          myservo.write(102);
-          stepper.step(5000);
-          myservo.write(60);
-          stepper.step(1000);
-          myservo.write(144);
-          stepper.step(1000);
-          myservo.write(102);
-          i = i + 6000;
-        }
+        for (int i = 0; i <= endpoint; i + 100) {
+          if (distance > 10) {
+            stepper.step(100);
+          } else {
+            myservo.write(144);
+            stepper.step(1000);
+            myservo.write(60);
+            stepper.step(1000);
+            myservo.write(102);
+            stepper.step(5000);
+            myservo.write(60);
+            stepper.step(1000);
+            myservo.write(144);
+            stepper.step(1000);
+            myservo.write(102);
+            i = i + 6000;
+          }
         }
         break;
         key_value = results.value;
         irrecv.resume();
     }
   }
-}
-
-float dist_calc(int pos) {  // trigger 40kHz pulse for ranging
-  digitalWrite(trig, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trig, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trig, LOW);
-  // convert from duration for pulse to reach detector (microseconds) to range (in cm)
-  duration = pulseIn(echo, HIGH); // duration for pulse to reach detector (in microseconds)
-  distance = 100.0 * (343.0 * (duration / 2.0)) / 1000000.0; // 100.0*(speed of sound*duration/2)/microsec conversion
 }
