@@ -3,15 +3,19 @@
 #include <Stepper.h>
 #define STEPS 2048
 Stepper stepper(STEPS, 8, 10, 9, 11);
+#include <NewPing.h>
 
 #include <Servo.h>
 Servo myservo;
 
+#define echoPin 12
+#define trigPin 13
+#define PULSE_TIMEOUT 150000
+NewPing sonar(trigPin, echoPin);
 const int RECV_PIN = 7;
 IRrecv irrecv(RECV_PIN);
 decode_results results;
 unsigned long key_value = 0;
-
 void setup() {
    Serial.begin(9600);
    stepper.setSpeed(15);
@@ -59,4 +63,5 @@ void loop() {
         irrecv.resume(); 
   }
   Serial.println (results.value, HEX); 
+  Serial.print(sonar.ping_cm());
 }
