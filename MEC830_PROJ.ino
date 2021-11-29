@@ -78,8 +78,7 @@ void loop() {
             myservo.write(120);
             stepper.step(-4000);
             myservo.write(60);
-            stepper.step(-9        
-            000);
+            stepper.step(-9000);
             myservo.write(120);
             stepper.step(-2000);
             myservo.write(90);
