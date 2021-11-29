@@ -15,13 +15,13 @@ unsigned long key_value = 0;
 void setup() {
    Serial.begin(9600);
    stepper.setSpeed(15);
-   myservo.attach(5);
+   myservo.attach(6);
    irrecv.enableIRIn();
-   myservo.write(70);
+   myservo.write(90);
 }
 
 void loop() {
-   int pos=constrain(pos,30,110);
+  // int pos=constrain(pos,30,110);
    if (irrecv.decode(&results)){
  
         if (results.value == 0XFFFFFFFF)
@@ -30,28 +30,29 @@ void loop() {
     if (results.value == 0xFF629D) // Move Forward
     {
       Serial.println("VOL+");
-      stepper.step(1000);
+      stepper.step(-1000);
     }
     if (results.value == 0xFFE21D)// Straighten Wheels
     {
       Serial.println("FUNC / STOP");
-      stepper.step(1000);
-      myservo.write(70);
+      myservo.write(90);
     }
     if (results.value == 0xFF22DD)// Left Turn
     {
       Serial.println("|<<");
-      myservo.write(30);
+      myservo.write(50);
     }
     if (results.value == 0xFFC23D)// Right Turn
     {
       Serial.println(">>|");
-      myservo.write(110);
+       Serial.println("|<<");
+      myservo.write(130);
+
     }
     if (results.value == 0xFFA857)// Move Backward
     {
        Serial.println("VOL-");
-      stepper.step(-1000);
+      stepper.step(1000);
     }
       
         key_value = results.value;
