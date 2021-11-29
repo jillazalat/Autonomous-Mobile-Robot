@@ -1,6 +1,6 @@
 #include <IRremote.h>           //Include libraries
 #include <Stepper.h>
-#define STEPS 2048
+#define STEPS 4096
 #include <Servo.h>
 
 Stepper stepper(STEPS, 9, 11, 10, 12);  //Initialize Stepper and Servo
@@ -17,11 +17,23 @@ unsigned long key_value = 0;
 
 void setup() {
   Serial.begin(9600);
-  stepper.setSpeed(10);      //Set Stepper speed
+  stepper.setSpeed(15);      //Set Stepper speed
   myservo.attach(6);         //Set Servo pin
+  myservo.write(102);
   irrecv.enableIRIn();
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
+}
+
+float dist_calc(int pos) {  // trigger 40kHz pulse for ranging
+  digitalWrite(trig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+  // convert from duration for pulse to reach detector (microseconds) to range (in cm)
+  duration = pulseIn(echo, HIGH); // duration for pulse to reach detector (in microseconds)
+  distance = 100.0 * (343.0 * (duration / 2.0)) / 1000000.0; // 100.0*(speed of sound*duration/2)/microsec conversion
 }
 
 void loop() {
@@ -34,19 +46,19 @@ void loop() {
     switch (results.value) {
       case 0xFF18E7:                 //Task 2, motion in a predefined path
         Serial.println("2");
-        stepper.step(14500);
+        stepper.step(33437);
         myservo.write(144);
-        stepper.step(9000);
+        stepper.step(4096);
         myservo.write(102);
-        stepper.step(8000);
+        stepper.step(30000);
         myservo.write(60);
-        stepper.step(10000);
+        stepper.step(4096);
         myservo.write(102);
-        stepper.step(10000);
+        stepper.step(30000);
         break;
       case 0xFF629D:                //Manual motion Forward
         Serial.println("VOL+");
-        stepper.step(1000);
+        stepper.step(279);
         break;
       case 0xFF30CF:                //Manual motion wheels straight
         Serial.println("1");
@@ -58,7 +70,7 @@ void loop() {
         break;
       case 0xFFA857:                //Manual motion Backward
         Serial.println("VOL-");
-        stepper.step(-1000);
+        stepper.step(-279);
         break ;
       case 0xFFC23D:                //Manual motion wheels Right
         Serial.println(">>|");
@@ -66,35 +78,29 @@ void loop() {
         break ;
       case 0xFF7A85:                //Task 3
         Serial.println("3");
-        if (distance > 10) {
-          stepper.step(12000);
-        } else {
-          myservo.write(144);
-          stepper.step(1000);
-          myservo.write(60);
-          stepper.step(1000);
-          myservo.write(102);
-          stepper.step(5000);
-          myservo.write(60);
-          stepper.step(1000);
-          myservo.write(144);
-          stepper.step(1000);
-          myservo.write(102);
+        int endpoint;
+        endpoint = 66874;
+        for (int i = 0; i <= endpoint; i + 290) {
+          if (distance > 10) {
+            stepper.step(290);
+          } else {
+            myservo.write(144);
+            stepper.step(279);
+            myservo.write(60);
+            stepper.step(279);
+            myservo.write(102);
+            stepper.step(558);
+            myservo.write(60);
+            stepper.step(279);
+            myservo.write(144);
+            stepper.step(279);
+            myservo.write(102);
+            i = i + 1412;
+          }
         }
         break;
         key_value = results.value;
         irrecv.resume();
     }
   }
-}
-
-float dist_calc(int pos) {  // trigger 40kHz pulse for ranging
-  digitalWrite(trig, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trig, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trig, LOW);
-  // convert from duration for pulse to reach detector (microseconds) to range (in cm)
-  duration = pulseIn(echo, HIGH); // duration for pulse to reach detector (in microseconds)
-  distance = 100.0 * (343.0 * (duration / 2.0)) / 1000000.0; // 100.0*(speed of sound*duration/2)/microsec conversion
 }
