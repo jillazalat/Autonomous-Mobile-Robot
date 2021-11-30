@@ -21,19 +21,19 @@ unsigned long key_value = 0;
 
 void setup() {
   Serial.begin(9600);
-  stepper.setSpeed(10);
+  stepper.setSpeed(10); //Set as Maximum possible stepper speed
   myservo.attach(13);
-  irrecv.enableIRIn();
+  irrecv.enableIRIn(); //Enable IR reciever
 }
 
 void loop() {
-  int pos = constrain(pos, 60, 120);
+  int pos = constrain(pos, 60, 120); // Limit servo position 
   if (irrecv.decode(&results)) {
 
-    if (results.value == 0XFFFFFFFF)
+    if (results.value == 0XFFFFFFFF) // IF button held, repeat previous input
       results.value = key_value;
 
-    switch (results.value) {
+    switch (results.value) { // TASK 2
       case 0xFF18E7:
         Serial.println("2");
         stepper.step(-15000);
@@ -45,37 +45,37 @@ void loop() {
         stepper.step(-8300);
         myservo.write(90);
         stepper.step(-15000);
-        break;
-      case 0xFF629D:
-        Serial.println("VOL+");
+        break;                // END OF TASK 2
+      case 0xFF629D:          // TASK 1 USER COMMANDS
+        Serial.println("VOL+"); //Move Forwards
         stepper.step(-1000);
         break;
       case 0xFFE21D:
-        Serial.println("FUNC / STOP");
+        Serial.println("FUNC / STOP"); //Straighten wheels
         myservo.write(90);
         break;
       case 0xFF22DD:
-        Serial.println("|<<");
+        Serial.println("|<<");  //Turn Left
         myservo.write(60);
         break;
       case 0xFF02FD:
-        Serial.println(">||");
+        Serial.println(">||"); //Move Backwards
         stepper.step(1000);
         break ;
       case 0xFFC23D:
-        Serial.println(">>|");
+        Serial.println(">>|");// Turn Right
         myservo.write(120);
-        break ;
-      case 0xFF7A85:
+        break ;                       // END OF TASK 1
+      case 0xFF7A85:                  // TASK 3 
         Serial.println("3");
         for (long i = 0; i <= totalDist; i = i + 500) {
           dist = sr04.Distance();
               Serial.println(dist);
-          if (dist > 40) {
+          if (dist > 40) {              //If no object detected
             stepper.step(-500);
             Serial.println(i);
           } 
-            if ((flag==0)&&(dist<40)){
+            if ((flag==0)&&(dist<40)){ //If object detected
             myservo.write(120);
             stepper.step(-4000);
             myservo.write(60);
@@ -88,7 +88,7 @@ void loop() {
             Serial.println(i);
           }
         }
-        break ;
+        break ;                      //END OF TASK 3
 
     }
     key_value = results.value;
