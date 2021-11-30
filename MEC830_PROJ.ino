@@ -4,9 +4,8 @@
 #define TRIG_PIN 4
 #define ECHO_PIN 5
 SR04 sr04 = SR04(ECHO_PIN, TRIG_PIN);
-int dist;
-long totalDist = 38000
-;
+int dist, flag=0;
+long totalDist = 38000;
 
 #include <Stepper.h>
 #define STEPS 2048
@@ -69,20 +68,24 @@ void loop() {
         break ;
       case 0xFF7A85:
         Serial.println("3");
-        for (int i = 0; i <= totalDist; i = i + 500) {
+        for (long i = 0; i <= totalDist; i = i + 500) {
           dist = sr04.Distance();
-
-          if (dist > 35) {
+              Serial.println(dist);
+          if (dist > 40) {
             stepper.step(-500);
-          } else {
+            Serial.println(i);
+          } 
+            if ((flag==0)&&(dist<40)){
             myservo.write(120);
             stepper.step(-4000);
             myservo.write(60);
             stepper.step(-9000);
             myservo.write(120);
-            stepper.step(-2000);
+            stepper.step(-3500);
             myservo.write(90);
-            i = i + 18000;
+            i = i + 10000;
+            flag=1;
+            Serial.println(i);
           }
         }
         break ;
