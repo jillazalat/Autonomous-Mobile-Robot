@@ -34,8 +34,8 @@ void loop() {
       results.value = key_value;
 
     switch (results.value) {
-      case 0xFFA25D:
-        Serial.println("ON / OFF");
+      case 0xFF18E7:
+        Serial.println("2");
         stepper.step(-15000);
         myservo.write(120);
         stepper.step(-7300);
