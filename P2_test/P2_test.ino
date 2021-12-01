@@ -10,7 +10,7 @@ int joyY = A1;
 
 void setup() {
   servo.attach(6);
-  stepper.setSpeed(4);
+  stepper.setSpeed(10);
 }
 
 void loop() {
@@ -18,15 +18,18 @@ void loop() {
   joyVal = analogRead(joyx);
 
   if ((joyVal > 500) && (joyVal < 523)) {
+    joyVal = 102;
+    servo.write(joyVal);
     digitalWrite(6, LOW);
+    
   }
   else if (joyVal >= 523)
   {
-    joyVal = map(joyVal, 523, 1023, 90, 180);
+    joyVal = map(joyVal, 523, 1023, 102, 140);
     servo.write(joyVal);
   } else
   {
-    joyVal = map(joyVal, 500, 0, 90, 0);
+    joyVal = map(joyVal, 500, 0, 102, 60);
     servo.write(joyVal);
   }
   
