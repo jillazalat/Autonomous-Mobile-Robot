@@ -66,17 +66,15 @@ void loop() {
     {
       stepper.step(-8*walk);
       
-      myservo.write(left); 
-      stepper.step(-walk);
+//      myservo.write(left); 
+//      stepper.step(-walk);
       
-      myservo.write(straight);
-      stepper.step(-4*walk);
+//      myservo.write(straight);
+//      stepper.step(-4*walk);
       
       myservo.write(right);
       stepper.step(-6*walk);
 
-//      myservo.write(left);
-//      stepper.step(-2*walk);
 
       myservo.write(straight);
       stepper.step(-8*walk);
@@ -85,19 +83,13 @@ void loop() {
       stepper.step(-4*walk);
 
       myservo.write(straight);
-      stepper.step(-3*walk);
-
-//      myservo.write(left);
-//      stepper.step(-2*walk);
-
-      myservo.write(straight);
-      stepper.step(-5*walk);
+      stepper.step(-8*walk);
 
       myservo.write(right);
       stepper.step(-4*walk);
 
       myservo.write(straight);
-      stepper.step(-14*walk);
+      stepper.step(-8*walk);
 
     }
       
