@@ -115,23 +115,23 @@ void loop() {
           } 
           else {
             myStepper.setSpeed (stepper_speed);
-            myServo.write(left_pos);
-            myStepper.step(-2000);
-            myServo.write(straight_pos);
-            myStepper.step(-1000);
             myServo.write(right_pos);
             myStepper.step(-2000);
             myServo.write(straight_pos);
-            myStepper.step(-1000);
-            myServo.write(right_pos);
-            myStepper.step(-2000);
-            myServo.write(straight_pos);
-            myStepper.step(-1000);
+            myStepper.step(-1200);
             myServo.write(left_pos);
             myStepper.step(-2000);
             myServo.write(straight_pos);
+            myStepper.step(-1200);
+            myServo.write(left_pos);
+            myStepper.step(-2000);
+            myServo.write(straight_pos);
+            myStepper.step(-2000);
+            myServo.write(right_pos);
+            myStepper.step(-1200);
+            myServo.write(straight_pos);
             myStepper.step(-1000);
-            i = i + 1000;
+            i = i + 2000;
           }
         }
         break;
