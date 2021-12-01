@@ -7,7 +7,7 @@ Servo myServo; //declaring servo object
 
 int servo_pin = 6;
 int straight_pos = 95; //160 works
-int left_pos = 50;
+int left_pos = 60;
 int right_pos = 140;
 
 //declaring stepper pins
@@ -27,6 +27,12 @@ int IR_Receiver_Pin = 12;
 IRrecv myReceiver (IR_Receiver_Pin); //creating an object called myReceiver and connecting it to pin 2
 decode_results results; //this is used to store the receiver button code
 
+//ultrasonic sensor pins
+int Echo_pin = 5;
+int Trig_pin = 4;
+float duration;
+float distance;
+
 void setup() {
   //start serial communication
   Serial.begin(9600);
@@ -44,6 +50,10 @@ void setup() {
   //attach servo pin
   myServo.attach(servo_pin);
   myServo.write(straight_pos);
+
+  //ultrasonic sensor
+  pinMode(Trig_pin,OUTPUT);
+  pinMode(Echo_pin,INPUT);
 }
 
 void loop() {
@@ -55,7 +65,6 @@ void loop() {
         Serial.println("Vol +");
         myStepper.setSpeed (stepper_speed);
         myStepper.step(-256);
-        //myServo.write(100);
         break;
       case 0xFFC23D: //right
         Serial.println(">>");
@@ -70,38 +79,84 @@ void loop() {
         myServo.write(left_pos);
         break;
         
-      //task 2: automatic
+      //task 2: automatic 
       case 0xFF18E7:
         Serial.println("2");
+        myStepper.setSpeed (stepper_speed);
         myStepper.step(-14000);
         myServo.write(right_pos);
-        myStepper.step(-14000);
+        myStepper.step(-1200);
+        myServo.write(straight_pos);
+        myStepper.step(-1200);
+        myServo.write(right_pos);
+        myStepper.step(-1100);
+        myServo.write(straight_pos);
+        myStepper.step(-9000);
         myServo.write(left_pos);
-        myStepper.step(-14000);
-     
+        myStepper.step(-1600);
+        myServo.write(straight_pos);
+        myStepper.step(-1000);
+        myServo.write(left_pos);
+        myStepper.step(-1500);
+        myServo.write(straight_pos);
+        myStepper.step(-7000);
+        break;
+
+     //task 3: obstacle avoidance
+     case 0xFF7A85:
+      Serial.println("3");
+      int destination;
+      destination = 5000;
+        for (int i = 0; i <= destination; i + 500) {
+          dist_calculation();
+          if (distance > 20) {
+            myStepper.setSpeed (stepper_speed);
+            myStepper.step(-256);
+          } 
+          else {
+            myStepper.setSpeed (stepper_speed);
+            myServo.write(left_pos);
+            myStepper.step(-2000);
+            myServo.write(straight_pos);
+            myStepper.step(-1000);
+            myServo.write(right_pos);
+            myStepper.step(-2000);
+            myServo.write(straight_pos);
+            myStepper.step(-1000);
+            myServo.write(right_pos);
+            myStepper.step(-2000);
+            myServo.write(straight_pos);
+            myStepper.step(-1000);
+            myServo.write(left_pos);
+            myStepper.step(-2000);
+            myServo.write(straight_pos);
+            myStepper.step(-1000);
+            i = i + 1000;
+          }
+        }
+        break;
+    }
+      
+        
     //resume the IR receiver for next signal
     myReceiver.resume();
   }
-
-
-
-  /*myStepper.setSpeed (stepper_speed);
-    myStepper.step (256);*/
-  //delay (100);
-  //for (pos = 0; pos <= 10; pos ++) {
-  //myServo.write(pos);
-  //delay(100);
-  //}
 }
+
+float dist_calculation(){
+  
+  // trigger 40kHz pulse for ranging
+  digitalWrite(Trig_pin,LOW);
+  delayMicroseconds(2);
+  digitalWrite(Trig_pin,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(Trig_pin,LOW);
+  
+  // convert from duration for pulse to reach detector (microseconds) to range (in cm)
+  duration = pulseIn(Echo_pin,HIGH); // duration for pulse to reach detector (in microseconds)
+  distance = 100.0*(343.0*(duration/2.0))/1000000.0; // 100.0*(speed of sound*duration/2)/microsec conversion
+ 
+ // Serial.print(pos);
+  //Serial.print(",");
+  Serial.println(distance);  
 }
-// put your setup code here, to run once:
-/*myServo.attach(servo_pin);
-  myServo.write(20);
-  delay(1000);
-  myServo.write(40);
-  delay(1000);
-  myServo.write(60);
-  delay(1000);
-  myServo.write(80);
-  delay(1000);
-  myServo.write(60);*/
