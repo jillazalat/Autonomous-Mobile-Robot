@@ -49,8 +49,8 @@ void setup() {
 void loop() {
   //if a signal is received then put it in the memory location of variable results
   if (myReceiver.decode(&results)) {
-
     switch (results.value) {
+      //task 1: manually 
       case 0xFFFFFFFF: //forward
         Serial.println("Vol +");
         myStepper.setSpeed (stepper_speed);
@@ -69,7 +69,16 @@ void loop() {
         Serial.println("<<");
         myServo.write(left_pos);
         break;
-    }
+        
+      //task 2: automatic
+      case 0xFF18E7:
+        Serial.println("2");
+        myStepper.step(-14000);
+        myServo.write(right_pos);
+        myStepper.step(-14000);
+        myServo.write(left_pos);
+        myStepper.step(-14000);
+     
     //resume the IR receiver for next signal
     myReceiver.resume();
   }
@@ -83,6 +92,7 @@ void loop() {
   //myServo.write(pos);
   //delay(100);
   //}
+}
 }
 // put your setup code here, to run once:
 /*myServo.attach(servo_pin);
