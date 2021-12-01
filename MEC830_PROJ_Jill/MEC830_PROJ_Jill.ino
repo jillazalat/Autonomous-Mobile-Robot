@@ -66,17 +66,15 @@ void loop() {
     {
       stepper.step(-8*walk);
       
-      myservo.write(left); 
-      stepper.step(-walk);
+//      myservo.write(left); 
+//      stepper.step(-walk);
       
-      myservo.write(straight);
-      stepper.step(-4*walk);
+//      myservo.write(straight);
+//      stepper.step(-4*walk);
       
       myservo.write(right);
       stepper.step(-6*walk);
 
-//      myservo.write(left);
-//      stepper.step(-2*walk);
 
       myservo.write(straight);
       stepper.step(-8*walk);
@@ -85,66 +83,14 @@ void loop() {
       stepper.step(-4*walk);
 
       myservo.write(straight);
-      stepper.step(-3*walk);
-
-//      myservo.write(left);
-//      stepper.step(-2*walk);
-
-      myservo.write(straight);
-      stepper.step(-5*walk);
+      stepper.step(-8*walk);
 
       myservo.write(right);
       stepper.step(-4*walk);
 
       myservo.write(straight);
-      stepper.step(-14*walk);
+      stepper.step(-8*walk);
 
-//      stepper.step(-6*1000);
-//      myservo.write(45);
-//      stepper.step(-10*1000);
-//      myservo.write(130);
-//      stepper.step(-0.5*1000);
-//      myservo.write(90);
-//      
-//      stepper.step(-6*1000);
-//      myservo.write(45);
-//      stepper.step(-10*1000);
-//      myservo.write(130);
-//      stepper.step(-0.5*1000);
-//      myservo.write(90);
-//      stepper.step(-6*1000);
-      
-//       Serial.println("Performing Task 1");
-//       stepper.step(-9*1000);
-//       myservo.write(50);
-//       delay(100);
-//       stepper.step(-2*1000);
-//       myservo.write(90);
-//       delay(100);
-//       stepper.step(-3*1000);
-//        myservo.write(50);
-//        delay(100);
-//        stepper.step(-8*1000);
-//        delay(100);
-//        myservo.write(90);
-//        delay(100);
-//        stepper.step(-9*1000);
-//        delay(100);
-//        myservo.write(130);
-//        delay(100);
-//        stepper.step(-6*1000);
-//         delay(100);
-//        myservo.write(90);
-//        delay(100);
-//        stepper.step(-12*1000);
-////        delay(100);
-////        myservo.write(50);
-////       delay(100);
-////        stepper.step(-3*1000);
-////        delay(100);
-////        stepper.step(-3*1000);
-//        delay(100);
-//       Serial.println("Task 1 Complete");
     }
       
         key_value = results.value;
@@ -152,29 +98,4 @@ void loop() {
   }
   Serial.println (results.value, HEX); 
  // Serial.print(sonar.ping_cm());
-}
-void moveAlongFirstSegment() {
-  stepper.step(-7*walk);
-  myservo.write(left);
-  stepper.step(-3*walk);
-  myservo.write(straight);
-  stepper.step(-walk);
-  
-
- 
-}
-void moveAlongSegment() {
-  stepper.step(-6.5*walk);
-  myservo.write(straight);
-  
-
- 
-}
-void turnCornerRight() {
-      myservo.write(right);
-      stepper.step(-7*walk);
-      myservo.write(left);
-      stepper.step(-0.5*walk);
-      myservo.write(straight);
-//      stepper.step(-6*walk);
 }
