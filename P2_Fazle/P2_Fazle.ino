@@ -1,6 +1,6 @@
 #include <IRremote.h>           //Include libraries
 #include <Stepper.h>
-#define STEPS 4096
+#define STEPS 2048
 #include <Servo.h>
 
 Stepper stepper(STEPS, 9, 11, 10, 12);  //Initialize Stepper and Servo
@@ -46,19 +46,19 @@ void loop() {
     switch (results.value) {
       case 0xFF18E7:                 //Task 2, motion in a predefined path
         Serial.println("2");
-        stepper.step(33437);
+        stepper.step(16719);
         myservo.write(144);
-        stepper.step(4096);
+        stepper.step(2048);
         myservo.write(102);
-        stepper.step(30000);
+        stepper.step(15150);
         myservo.write(60);
-        stepper.step(4096);
+        stepper.step(2048);
         myservo.write(102);
-        stepper.step(30000);
+        stepper.step(15150);
         break;
       case 0xFF629D:                //Manual motion Forward
         Serial.println("VOL+");
-        stepper.step(279);
+        stepper.step(140);
         break;
       case 0xFF30CF:                //Manual motion wheels straight
         Serial.println("1");
@@ -70,7 +70,7 @@ void loop() {
         break;
       case 0xFFA857:                //Manual motion Backward
         Serial.println("VOL-");
-        stepper.step(-279);
+        stepper.step(-140);
         break ;
       case 0xFFC23D:                //Manual motion wheels Right
         Serial.println(">>|");
@@ -79,23 +79,23 @@ void loop() {
       case 0xFF7A85:                //Task 3
         Serial.println("3");
         int endpoint;
-        endpoint = 66874;
-        for (int i = 0; i <= endpoint; i + 290) {
+        endpoint = 33437;
+        for (int i = 0; i <= endpoint; i + 140) {
           if (distance > 10) {
-            stepper.step(290);
+            stepper.step(140);
           } else {
             myservo.write(144);
-            stepper.step(279);
+            stepper.step(140);
             myservo.write(60);
-            stepper.step(279);
+            stepper.step(140);
             myservo.write(102);
-            stepper.step(558);
+            stepper.step(280);
             myservo.write(60);
-            stepper.step(279);
+            stepper.step(140);
             myservo.write(144);
-            stepper.step(279);
+            stepper.step(140);
             myservo.write(102);
-            i = i + 1412;
+            i = i + 706;
           }
         }
         break;
