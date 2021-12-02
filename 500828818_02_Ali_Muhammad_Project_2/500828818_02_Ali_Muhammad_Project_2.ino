@@ -103,10 +103,10 @@ void loop() {
         break;
 
      //task 3: obstacle avoidance
-     case 0xFF7A85:
-      Serial.println("3");
-      int destination;
-      destination = 5000;
+      case 0xFF7A85:
+        Serial.println("3");
+        int destination;
+        destination = 4000;
         for (int i = 0; i <= destination; i + 500) {
           dist_calculation();
           if (distance > 20) {
@@ -118,15 +118,15 @@ void loop() {
             myServo.write(right_pos);
             myStepper.step(-2000);
             myServo.write(straight_pos);
-            myStepper.step(-1200);
+            myStepper.step(-1000);
             myServo.write(left_pos);
             myStepper.step(-2000);
             myServo.write(straight_pos);
-            myStepper.step(-1200);
+            myStepper.step(-2200);
             myServo.write(left_pos);
             myStepper.step(-2000);
             myServo.write(straight_pos);
-            myStepper.step(-2000);
+            myStepper.step(-2500);
             myServo.write(right_pos);
             myStepper.step(-1200);
             myServo.write(straight_pos);
@@ -135,9 +135,32 @@ void loop() {
           }
         }
         break;
-    }
+     //task 4 implementation
+     case 0xFF10EF:
+      Serial.println("4");
+      myStepper.setSpeed (stepper_speed);
       
-        
+      //first square path segment including first right 
+      myStepper.step(-12500);
+      myServo.write(right_pos);
+      myStepper.step(-2200);
+      myServo.write(straight_pos);
+      myStepper.step(-500);
+      myServo.write(straight_pos);
+      myStepper.step(-10700);
+      
+      //2nd square path segment including 2nd right
+      myServo.write(right_pos);
+      myStepper.step(-1950);
+      myServo.write(straight_pos);
+      myStepper.step(-12000);
+
+      //3rd square path segment including 3rd right
+      myServo.write(right_pos);
+      myStepper.step(-2000);
+      myServo.write(straight_pos);
+      myStepper.step(-14500);      
+    }    
     //resume the IR receiver for next signal
     myReceiver.resume();
   }
