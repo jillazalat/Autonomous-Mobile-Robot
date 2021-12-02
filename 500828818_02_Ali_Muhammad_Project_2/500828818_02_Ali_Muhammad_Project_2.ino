@@ -106,7 +106,7 @@ void loop() {
       case 0xFF7A85:
         Serial.println("3");
         int destination;
-        destination = 5000;
+        destination = 4000;
         for (int i = 0; i <= destination; i + 500) {
           dist_calculation();
           if (distance > 20) {
@@ -118,15 +118,15 @@ void loop() {
             myServo.write(right_pos);
             myStepper.step(-2000);
             myServo.write(straight_pos);
-            myStepper.step(-1200);
+            myStepper.step(-1000);
             myServo.write(left_pos);
             myStepper.step(-2000);
             myServo.write(straight_pos);
-            myStepper.step(-1200);
+            myStepper.step(-2200);
             myServo.write(left_pos);
             myStepper.step(-2000);
             myServo.write(straight_pos);
-            myStepper.step(-2000);
+            myStepper.step(-2500);
             myServo.write(right_pos);
             myStepper.step(-1200);
             myServo.write(straight_pos);
@@ -146,18 +146,12 @@ void loop() {
       myStepper.step(-2200);
       myServo.write(straight_pos);
       myStepper.step(-500);
-      //myServo.write(right_pos);
-      //myStepper.step(-500);
       myServo.write(straight_pos);
       myStepper.step(-10700);
       
       //2nd square path segment including 2nd right
       myServo.write(right_pos);
       myStepper.step(-1950);
-      //myServo.write(straight_pos);
-      //myStepper.step(-500);
-      //myServo.write(right_pos);
-      //myStepper.step(-550);
       myServo.write(straight_pos);
       myStepper.step(-12000);
 
@@ -165,12 +159,7 @@ void loop() {
       myServo.write(right_pos);
       myStepper.step(-2000);
       myServo.write(straight_pos);
-      myStepper.step(-14500);
-      //myServo.write(right_pos);
-      //myStepper.step(-500);
-      //myServo.write(straight_pos);
-      //myStepper.step(-3000);
-      
+      myStepper.step(-14500);      
     }    
     //resume the IR receiver for next signal
     myReceiver.resume();
